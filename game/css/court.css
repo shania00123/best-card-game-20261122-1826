@@ -1,0 +1,247 @@
+/* Ember Court — table, cards and screens. Dark green felt, gold trim,
+   parchment cards. Element colours do the telling, never text alone. */
+:root {
+  --felt: #123524;
+  --felt-dark: #0b2417;
+  --gold: #d9a441;
+  --gold-bright: #f2c14e;
+  --parchment: #f4e8c8;
+  --ink: #241a08;
+  --flame: #d63c1e;
+  --tide: #1e7fd6;
+  --thorn: #2f9e44;
+  --storm: #8a5cf6;
+  --life: #e5484d;
+  --mana: #3aa0ff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  background: radial-gradient(1200px 700px at 50% 0%, #1d5c38 0%, var(--felt) 55%, var(--felt-dark) 100%);
+  color: #f5edd3;
+  font-family: Georgia, 'Times New Roman', serif;
+  overflow: hidden;
+}
+#app { height: 100vh; width: 100vw; }
+.screen { height: 100%; width: 100%; }
+.hidden { display: none !important; }
+button { font-family: inherit; cursor: pointer; }
+
+/* ---------- buttons ---------- */
+.btn {
+  background: linear-gradient(180deg, #3a2c12, #241a08);
+  color: var(--gold-bright);
+  border: 2px solid var(--gold);
+  border-radius: 10px;
+  padding: 10px 22px;
+  font-size: 17px;
+  letter-spacing: .04em;
+}
+.btn:hover { background: linear-gradient(180deg, #57431c, #33260c); }
+.btn-big { font-size: 22px; padding: 14px 34px; border-radius: 12px; }
+.btn-end {
+  background: linear-gradient(180deg, #7a4a12, #4a2c05);
+  color: #ffe9b0; font-size: 18px; padding: 10px 20px; white-space: nowrap;
+}
+.btn-end:disabled { opacity: .45; cursor: default; }
+.btn-small { font-size: 13px; padding: 6px 12px; }
+
+/* ---------- title screen ---------- */
+#title-screen {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; gap: 14px; padding: 24px;
+  background:
+    radial-gradient(900px 500px at 50% 110%, rgba(217, 164, 65, .22), transparent 60%),
+    radial-gradient(700px 420px at 50% -10%, rgba(214, 60, 30, .20), transparent 60%);
+}
+.title-embers { font-size: 30px; letter-spacing: 18px; }
+.title-embers span:nth-child(1) { color: var(--storm); }
+.title-embers span:nth-child(2) { color: var(--flame); }
+.title-embers span:nth-child(3) { color: var(--thorn); }
+.title-embers span:nth-child(4) { color: var(--tide); }
+.game-title {
+  font-size: 84px; letter-spacing: .14em; line-height: 1;
+  color: var(--gold-bright);
+  text-shadow: 0 0 26px rgba(242, 193, 78, .45), 0 4px 0 #5c3d05, 0 8px 24px rgba(0,0,0,.6);
+}
+.game-subtitle { font-size: 21px; font-style: italic; color: #e8d9a8; }
+.title-blurb { max-width: 640px; font-size: 18px; line-height: 1.55; color: #f0e6c4; }
+.title-buttons { display: flex; gap: 16px; margin-top: 6px; }
+.title-foot { font-size: 14px; color: #cbbd8f; margin-top: 8px; }
+.howto {
+  max-width: 680px; text-align: left; background: rgba(20, 14, 4, .82);
+  border: 2px solid var(--gold); border-radius: 14px; padding: 18px 22px;
+  font-size: 16px; line-height: 1.5;
+}
+.howto h2 { color: var(--gold-bright); margin-bottom: 8px; font-size: 22px; }
+.howto ul { list-style: none; }
+.howto li { margin: 6px 0; }
+.howto li::before { content: "✦ "; color: var(--gold); }
+.el-flame { color: #ff7a5c; font-weight: bold; }
+.el-tide { color: #6db9ff; font-weight: bold; }
+.el-thorn { color: #7ddb8a; font-weight: bold; }
+.el-storm { color: #c9a6ff; font-weight: bold; }
+
+/* ---------- table ---------- */
+#table-screen { display: flex; flex-direction: column; padding: 10px 18px 8px; }
+.duelists { display: flex; align-items: stretch; gap: 12px; }
+.duelist {
+  flex: 1; display: flex; align-items: center; gap: 12px;
+  background: rgba(8, 20, 12, .55); border: 1px solid rgba(217, 164, 65, .5);
+  border-radius: 12px; padding: 8px 14px;
+}
+.duelist.rival { border-color: rgba(229, 72, 77, .55); }
+.portrait {
+  width: 58px; height: 58px; border-radius: 50%; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 34px; color: #fff; border: 3px solid var(--gold);
+  background: radial-gradient(circle at 35% 30%, #f2c14e, #7a4a12 70%);
+}
+.rival-portrait {
+  background: radial-gradient(circle at 35% 30%, #8a8f98, #3a3f47 70%);
+  border-color: #9aa0aa; cursor: pointer;
+}
+.rival-portrait.targetable { outline: 3px solid #ff5a5a; outline-offset: 2px; animation: pulse 0.8s infinite; }
+.duelist-name { font-size: 19px; font-weight: bold; letter-spacing: .03em; }
+.duelist-tag { font-size: 11px; background: #5a2020; border-radius: 4px; padding: 2px 6px; vertical-align: middle; }
+.life-row { font-size: 22px; margin-top: 2px; }
+.life-label { font-size: 12px; letter-spacing: .18em; color: #d8cba0; margin-right: 6px; }
+.life-value { color: #ff6b6b; font-weight: bold; font-size: 30px; }
+.life-max { color: #b7ab84; font-size: 16px; }
+.deck-row { font-size: 13px; color: #cbbd8f; }
+.mana-row { margin-left: auto; text-align: right; }
+.mana-label { font-size: 12px; letter-spacing: .18em; color: #d8cba0; display: block; margin-bottom: 4px; }
+.mana-pips { display: inline-flex; gap: 4px; }
+.mana-pip {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #1c2f45; border: 2px solid #2c4a6b; display: inline-block;
+}
+.mana-pip.full { background: radial-gradient(circle at 35% 30%, #9fd4ff, var(--mana) 70%); border-color: #bfe0ff; }
+.turn-banner {
+  align-self: center; min-width: 150px; text-align: center;
+  font-size: 19px; font-weight: bold; color: var(--gold-bright);
+  background: rgba(20, 14, 4, .7); border: 1px solid var(--gold);
+  border-radius: 10px; padding: 10px 12px;
+}
+.turn-banner.enemy { color: #ff9d9d; border-color: #8a3a3a; }
+
+.mini-hand { display: flex; justify-content: center; gap: 6px; min-height: 44px; padding-top: 6px; }
+.mini-card {
+  width: 34px; height: 44px; border-radius: 5px;
+  background: linear-gradient(160deg, #4a3a1c, #241a08);
+  border: 2px solid var(--gold); color: var(--gold-bright);
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+
+.board-zone { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 4px; min-height: 0; }
+.board-row {
+  display: flex; justify-content: center; align-items: center; gap: 14px;
+  min-height: 182px; border-radius: 14px; padding: 12px 8px;
+}
+.rival-board { background: rgba(90, 20, 20, .18); border: 1px dashed rgba(255, 120, 120, .35); }
+.player-board { background: rgba(20, 90, 56, .25); border: 1px dashed rgba(242, 193, 78, .4); }
+.board-empty { color: #a99e78; font-style: italic; font-size: 16px; }
+.midline { display: flex; align-items: center; gap: 14px; padding: 2px 6px; }
+.battle-log {
+  flex: 1; min-height: 34px; font-size: 15px; font-style: italic; color: #efe3b8;
+  background: rgba(8, 20, 12, .5); border-radius: 8px; padding: 7px 12px;
+  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+}
+
+/* ---------- cards ---------- */
+.card {
+  width: 124px; height: 158px; border-radius: 12px; flex: none; position: relative;
+  background: linear-gradient(170deg, var(--parchment), #e2cd96);
+  color: var(--ink); border: 3px solid #6b4f1d;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, .55);
+  padding: 6px 7px; text-align: center;
+  transition: transform .18s ease, box-shadow .18s ease;
+  user-select: none;
+}
+.card.el-flame { border-color: var(--flame); box-shadow: 0 0 0 2px rgba(214, 60, 30, .35), 0 6px 14px rgba(0,0,0,.55); }
+.card.el-tide { border-color: var(--tide); box-shadow: 0 0 0 2px rgba(30, 127, 214, .35), 0 6px 14px rgba(0,0,0,.55); }
+.card.el-thorn { border-color: var(--thorn); box-shadow: 0 0 0 2px rgba(47, 158, 68, .35), 0 6px 14px rgba(0,0,0,.55); }
+.card.el-storm { border-color: var(--storm); box-shadow: 0 0 0 2px rgba(138, 92, 246, .35), 0 6px 14px rgba(0,0,0,.55); }
+.card .cost {
+  position: absolute; top: -8px; left: -8px; width: 30px; height: 30px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #9fd4ff, var(--mana) 75%);
+  color: #fff; font-size: 18px; font-weight: bold; line-height: 30px;
+  border: 2px solid #dfeeff; text-shadow: 0 1px 2px rgba(0,0,0,.5);
+}
+.card .element {
+  position: absolute; top: -8px; right: -8px; width: 30px; height: 30px; border-radius: 50%;
+  font-size: 18px; line-height: 28px; color: #fff; border: 2px solid rgba(255,255,255,.85);
+}
+.card.el-flame .element { background: var(--flame); }
+.card.el-tide .element { background: var(--tide); }
+.card.el-thorn .element { background: var(--thorn); }
+.card.el-storm .element { background: var(--storm); }
+.card .card-name { font-size: 14px; font-weight: bold; margin-top: 18px; line-height: 1.1; min-height: 28px; }
+.card .card-art { font-size: 36px; line-height: 1.1; margin: 1px 0; }
+.card .card-kind { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: #6b5426; }
+.card .card-text { font-size: 11px; line-height: 1.2; color: #4a3a18; height: 27px; overflow: hidden; padding: 0 4px; }
+.card .stat {
+  position: absolute; bottom: -8px; width: 30px; height: 30px; border-radius: 8px;
+  font-size: 17px; font-weight: bold; line-height: 28px; color: #fff;
+  border: 2px solid rgba(255,255,255,.85); text-shadow: 0 1px 2px rgba(0,0,0,.5);
+}
+.card .atk { left: -6px; background: linear-gradient(180deg, #c98a1b, #8a5a08); }
+.card .hp { right: -6px; background: linear-gradient(180deg, #c0392b, #7a1d12); }
+.card .ready-tag {
+  position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+  font-size: 9px; font-weight: bold; letter-spacing: .14em; color: var(--gold-bright);
+  background: #241a08; border: 1px solid var(--gold); border-radius: 4px; padding: 2px 7px; white-space: nowrap;
+}
+.card.spell .card-art { font-size: 42px; }
+
+/* hand cards: bigger, fan slightly, lift on hover */
+.hand {
+  display: flex; justify-content: center; align-items: flex-end; gap: 10px;
+  min-height: 196px; padding: 12px 8px 16px;
+}
+.hand .card { width: 140px; height: 176px; cursor: pointer; }
+.hand .card .card-art { font-size: 42px; }
+.hand .card .card-name { font-size: 15px; }
+.hand .card .card-text { font-size: 12.5px; line-height: 1.25; height: 32px; }
+.hand .card:nth-child(odd) { transform: rotate(-1.2deg); }
+.hand .card:nth-child(even) { transform: rotate(1.2deg); }
+.hand .card:hover { transform: translateY(-16px) scale(1.05); z-index: 5; }
+.hand .card.selected { transform: translateY(-18px) scale(1.06); outline: 3px solid var(--gold-bright); z-index: 6; }
+.hand .card.unplayable { filter: grayscale(.7) brightness(.72); cursor: default; }
+.hand .card.unplayable:hover { transform: rotate(0deg); }
+
+/* board cards: ready ones glow and lift */
+.board-row .card { cursor: default; }
+.board-row .card.ready { cursor: pointer; }
+.board-row .card.ready:hover { transform: translateY(-8px); }
+.board-row .card.selected-attacker { outline: 3px solid var(--gold-bright); transform: translateY(-10px); }
+.board-row .card.ready { box-shadow: 0 0 0 2px rgba(242, 193, 78, .8), 0 6px 14px rgba(0,0,0,.55); }
+.board-row .card.targetable { outline: 3px solid #ff5a5a; cursor: pointer; animation: pulse .8s infinite; }
+.board-row .card.just-played { animation: deal-in .35s ease; }
+.board-row .card.took-hit { animation: shake .3s ease; }
+@keyframes deal-in { from { transform: translateY(26px) scale(.85); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes shake { 0%,100% { transform: none; } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+@keyframes pulse { 0%,100% { outline-offset: 1px; } 50% { outline-offset: 4px; } }
+
+.table-foot { display: flex; align-items: center; gap: 12px; padding-top: 2px; }
+.table-foot #hint { flex: 1; font-size: 14px; color: #d8cba0; font-style: italic; }
+
+/* ---------- end screen ---------- */
+#end-screen {
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  background: radial-gradient(900px 520px at 50% 50%, rgba(217, 164, 65, .16), transparent 65%);
+}
+#end-screen.defeat { background: radial-gradient(900px 520px at 50% 50%, rgba(160, 30, 30, .25), transparent 65%); }
+.end-card { max-width: 620px; padding: 28px; }
+.end-mark { font-size: 64px; }
+.end-title { font-size: 72px; letter-spacing: .12em; color: var(--gold-bright); text-shadow: 0 0 26px rgba(242,193,78,.5), 0 4px 0 #5c3d05; }
+#end-screen.defeat .end-title { color: #ff8a8a; text-shadow: 0 0 26px rgba(229,72,77,.5), 0 4px 0 #4a0808; }
+.end-sub { font-size: 20px; font-style: italic; margin: 10px 0 18px; color: #efe3b8; }
+.end-stats { font-size: 17px; line-height: 1.7; margin-bottom: 20px; color: #e8d9a8; }
+.end-stats b { color: #fff; }
+
+@media (max-width: 900px) {
+  .game-title { font-size: 54px; }
+  .hand .card { width: 112px; height: 142px; }
+  .card { width: 100px; height: 132px; }
+}

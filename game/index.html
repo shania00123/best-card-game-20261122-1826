@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ember Court — a duel of ember-mages</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23123524'/%3E%3Ctext x='16' y='23' font-size='20' text-anchor='middle' fill='%23f2c14e'%3E%E2%96%B2%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/court.css">
+</head>
+<body>
+<div id="app">
+  <!-- Title screen -->
+  <section id="title-screen" class="screen">
+    <div class="title-embers" aria-hidden="true"><span>✦</span><span>▲</span><span>◆</span><span>●</span></div>
+    <h1 class="game-title">EMBER COURT</h1>
+    <p class="game-subtitle">A duel of ember-mages &middot; an original card battler</p>
+    <p class="title-blurb">Outwit the Ashen Rival. Spend embers, summon courtiers,
+      chain one element into the next, and burn the rival's life to zero
+      before yours is spent.</p>
+    <div class="title-buttons">
+      <button id="btn-play" class="btn btn-big">Enter the Court</button>
+      <button id="btn-howto" class="btn">How to Play</button>
+    </div>
+    <div id="howto" class="howto hidden">
+      <h2>How to Play</h2>
+      <ul>
+        <li><b>Goal:</b> reduce the rival to <b>0 life</b>. You both start at <b>30</b>.</li>
+        <li><b>Embers:</b> each turn you gain +1 ember (up to 10) and draw a card.</li>
+        <li><b>Play a card:</b> click it, or press <b>1&ndash;7</b>. It costs embers (blue gem).</li>
+        <li><b>Attack:</b> click one of your ready courtiers, then click a rival
+          courtier or the rival portrait. Courtiers rest the turn they are summoned,
+          unless they are <b>Swift</b>.</li>
+        <li><b>Elements:</b> <span class="el-flame">▲ Flame</span> beats
+          <span class="el-thorn">◆ Thorn</span>, <span class="el-thorn">◆ Thorn</span> beats
+          <span class="el-tide">● Tide</span>, <span class="el-tide">● Tide</span> beats
+          <span class="el-flame">▲ Flame</span> (+2 attack). <span class="el-storm">✦ Storm</span> is wild.</li>
+        <li><b>Resonance:</b> play two cards of the same element in one turn and the
+          second is kindled: +1 attack and +1 health (or +1 damage for edicts).</li>
+        <li><b>Guard:</b> a guarding courtier must be attacked before the rival can be struck.</li>
+        <li><b>End turn:</b> click End Turn or press <b>E</b>. Empty deck? You take growing fatigue damage.</li>
+      </ul>
+      <button id="btn-close-howto" class="btn">Close</button>
+    </div>
+    <p class="title-foot">Keyboard: 1&ndash;7 play cards &middot; E end turn &middot; Esc cancel &middot; M mute</p>
+  </section>
+
+  <!-- Table screen -->
+  <section id="table-screen" class="screen hidden">
+    <header class="duelists">
+      <div class="duelist rival" id="rival-panel">
+        <div class="portrait rival-portrait" id="rival-portrait" title="Rival — click to attack">♛</div>
+        <div class="duelist-info">
+          <div class="duelist-name">The Ashen Rival <span class="duelist-tag">AI</span></div>
+          <div class="life-row"><span class="life-label">LIFE</span><span class="life-value" id="rival-life">30</span><span class="life-max">/ 30</span></div>
+          <div class="deck-row"><span id="rival-deck">24 cards in deck</span> &middot; <span id="rival-hand-count">5 in hand</span></div>
+        </div>
+        <div class="mana-row"><span class="mana-label">EMBERS</span><span id="rival-mana" class="mana-pips"></span></div>
+      </div>
+      <div class="turn-banner" id="turn-banner">Your turn</div>
+      <div class="duelist player" id="player-panel">
+        <div class="portrait player-portrait">♚</div>
+        <div class="duelist-info">
+          <div class="duelist-name">You &middot; Ember Mage</div>
+          <div class="life-row"><span class="life-label">LIFE</span><span class="life-value" id="player-life">30</span><span class="life-max">/ 30</span></div>
+          <div class="deck-row"><span id="player-deck">24 cards in deck</span></div>
+        </div>
+        <div class="mana-row"><span class="mana-label">EMBERS</span><span id="player-mana" class="mana-pips"></span></div>
+      </div>
+    </header>
+
+    <div id="rival-hand" class="mini-hand" aria-label="Rival hand"></div>
+
+    <div class="board-zone">
+      <div id="rival-board" class="board-row rival-board" aria-label="Rival courtiers"></div>
+      <div class="midline">
+        <div id="battle-log" class="battle-log">The duel begins. Your move, mage.</div>
+        <button id="btn-end-turn" class="btn btn-end">End Turn ⏎</button>
+      </div>
+      <div id="player-board" class="board-row player-board" aria-label="Your courtiers"></div>
+    </div>
+
+    <div id="player-hand" class="hand" aria-label="Your hand"></div>
+
+    <footer class="table-foot">
+      <span id="hint">Click a card to play it. Click a ready courtier, then a target, to attack.</span>
+      <button id="btn-mute" class="btn btn-small">Sound: on</button>
+      <button id="btn-quit" class="btn btn-small">Leave Court</button>
+    </footer>
+  </section>
+
+  <!-- End screens -->
+  <section id="end-screen" class="screen hidden">
+    <div class="end-card" id="end-card">
+      <div class="end-mark" id="end-mark">♚</div>
+      <h1 class="end-title" id="end-title">VICTORY</h1>
+      <p class="end-sub" id="end-sub">The Ashen Rival bows. The Ember Court is yours.</p>
+      <div class="end-stats" id="end-stats"></div>
+      <div class="title-buttons">
+        <button id="btn-again" class="btn btn-big">Duel Again</button>
+        <button id="btn-title" class="btn">Title Screen</button>
+      </div>
+    </div>
+  </section>
+</div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
